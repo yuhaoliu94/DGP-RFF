@@ -5,6 +5,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Idea folder
+*/.idea/workspace.xml
+*/.idea/tasks.xml
+
 # Distribution / packaging
 .Python
 env/
