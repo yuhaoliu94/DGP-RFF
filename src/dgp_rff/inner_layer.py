@@ -1,10 +1,8 @@
-import torch
-
-import torch.nn as nn
 import pyro.distributions as dist
-
-from torch import Tensor
+import torch
+import torch.nn as nn
 from pyro.nn import PyroModule, PyroSample
+from torch import Tensor
 
 
 class FirstLayer(PyroModule):
@@ -38,6 +36,13 @@ class FirstLayer(PyroModule):
         self.layer = PyroModule[nn.Linear](in_dim, self.J, bias=False)
 
         self.layer.weight = PyroSample(dist.Normal(0., 1.).expand([self.J, in_dim]).to_event(2))
+        #pyro.sample()
+
+    # prior of Omega(5*4): location (5*4): 0.0; scale (5*4): 1.0
+    #
+    # posterior of Omega:  location (5*4): variational parameter; scale (5*4): variation parameter
+    #
+    # sample from posterior: N(location, scale)
 
     def forward(
             self,
@@ -88,6 +93,13 @@ class SecondLayer(PyroModule):
 
         self.layer.weight = PyroSample(dist.Normal(0., 1.).expand([out_dim, hid_dim]).to_event(2))
         self.layer.bias = PyroSample(dist.Normal(0., 1.).expand([out_dim]).to_event(1))
+
+    # known: phi(Omega x)
+    # want: phi(Omega x) W + epsilon
+    # epsilon : (2,)
+    # Secondlayer:
+    #     layer.weight: W;
+    #     layer.bias: epsilon
 
     def forward(
             self,

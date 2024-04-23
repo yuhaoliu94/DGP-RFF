@@ -5,6 +5,13 @@ from pyro.nn import PyroModule
 from src.dgp_rff.inner_layer import FirstLayer, SecondLayer
 
 
+#
+# class DeepGP(PyroModule):
+#
+#     J = 50
+#     list = [5,10,10,5]
+#     layer_list = [SingleGP(5,10,J), SingleGP(10,10,J), SingleGP(10,5,J)]
+
 class SingleGP(PyroModule):
     r"""
     A single random feature-based GP is equivalent to a two-layer Bayesian neural network.
@@ -14,6 +21,7 @@ class SingleGP(PyroModule):
     layers: PyroModule
         The layers containing the FirstLayer and SecondLayer.
     """
+
     def __init__(
             self,
             in_dim: int = 1,
